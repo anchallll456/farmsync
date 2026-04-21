@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FarmSync - Products</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#f4f9f4;
+}
+
+/* HEADER */
+header{
+background:#2e7d32;
+color:white;
+padding:15px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:20px;
+font-weight:bold;
+}
+
+.cart{
+background:white;
+color:#2e7d32;
+padding:5px 12px;
+border-radius:20px;
+font-size:14px;
+}
+
+/* SEARCH + FILTER */
+.top-bar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:30px 40px;
+flex-wrap:wrap;
+gap:20px;
+}
+
+.search{
+flex:1;
+min-width:250px;
+}
+
+.search input{
+width:100%;
+padding:12px;
+border-radius:25px;
+border:1px solid #ccc;
+font-size:16px;
+}
+
+.filters select{
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
+margin-left:10px;
+}
+
+/* PRODUCT GRID */
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+padding:0 40px 40px 40px;
+}
+
+.product-card{
+background:white;
+border-radius:12px;
+padding:20px;
+box-shadow:0px 4px 12px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.product-card:hover{
+transform:translateY(-5px);
+}
+
+.category{
+font-size:12px;
+color:gray;
+text-transform:uppercase;
+letter-spacing:1px;
+}
+
+.product-card h3{
+margin:8px 0;
+color:#2e7d32;
+}
+
+.price{
+font-size:18px;
+font-weight:bold;
+margin:8px 0;
+}
+
+.stock{
+font-size:13px;
+color:#666;
+}
+
+.rating{
+color:gold;
+font-size:14px;
+margin:5px 0;
+}
+
+.btn{
+margin-top:12px;
+padding:10px;
+background:#4caf50;
+color:white;
+border:none;
+width:100%;
+border-radius:6px;
+cursor:pointer;
+}
+
+.btn:hover{
+background:#388e3c;
+}
+
+/* FOOTER */
+footer{
+background:#2e7d32;
+color:white;
+text-align:center;
+padding:15px;
+margin-top:40px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">🌾 FarmSync</div>
+<nav>
+<a href="index.html">Home</a>
+<span class="cart">Cart: <span id="cart-count">0</span></span>
+</nav>
+</header>
+
+<div class="top-bar">
+<div class="search">
+<input type="text" placeholder="Search products...">
+</div>
+
+<div class="filters">
+<select>
+<option>All Categories</option>
+<option>Vegetables</option>
+<option>Fruits</option>
+<option>Grains</option>
+</select>
+
+<select>
+<option>Sort By</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+</select>
+</div>
+</div>
+
+<section class="products">
+
+<div class="product-card">
+<div class="category">Vegetable</div>
+<h3>Organic Tomatoes</h3>
+<div class="rating">★★★★★</div>
+<p class="price">₹40/kg</p>
+<p class="stock">In Stock: 120 kg</p>
+<button class="btn" onclick="addToCart()">Add to Cart</button>
+</div>
+
+<div class="product-card">
+<div class="category">Vegetable</div>
+<h3>Fresh Potatoes</h3>
+<div class="rating">★★★★☆</div>
+<p class="price">₹30/kg</p>
+<p class="stock">In Stock: 200 kg</p>
+<button class="btn" onclick="addToCart()">Add to Cart</button>
+</div>
+
+<div class="product-card">
+<div class="category">Grain</div>
+<h3>Premium Rice</h3>
+<div class="rating">★★★★★</div>
+<p class="price">₹55/kg</p>
+<p class="stock">In Stock: 500 kg</p>
+<button class="btn" onclick="addToCart()">Add to Cart</button>
+</div>
+
+<div class="product-card">
+<div class="category">Fruit</div>
+<h3>Farm Apples</h3>
+<div class="rating">★★★★☆</div>
+<p class="price">₹120/kg</p>
+<p class="stock">In Stock: 75 kg</p>
+<button class="btn" onclick="addToCart()">Add to Cart</button>
+</div>
+
+</section>
+
+<footer>
+<p>© 2026 FarmSync | Smart Agriculture Marketplace</p>
+</footer>
+
+<script>
+let count = 0;
+function addToCart(){
+count++;
+document.getElementById("cart-count").innerText = count;
+}
+</script>
+
+</body>
+</html>
