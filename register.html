@@ -1,0 +1,557 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Register | FarmSync</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+:root {
+    --primary: #2e7d32;
+    --primary-dark: #1b5e20;
+    --primary-soft: #e8f5e9;
+    --text: #14331b;
+    --muted: #5f7265;
+    --bg: #f3faf4;
+    --card: #ffffff;
+    --border: #cbe1cd;
+    --error: #c62828;
+    --error-bg: #fdecec;
+    --success: #2e7d32;
+    --success-bg: #eaf8ec;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Inter", sans-serif;
+    color: var(--text);
+    background: linear-gradient(140deg, #0f3d20 0%, #2e7d32 48%, #d8efdc 100%);
+    overflow-x: hidden;
+}
+
+.page {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.bg-shape {
+    position: fixed;
+    border-radius: 999px;
+    filter: blur(56px);
+    opacity: 0.12;
+    z-index: 0;
+    pointer-events: none;
+    animation: floatOrb 12s ease-in-out infinite;
+}
+
+.shape-a {
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle at 35% 35%, #c5f3ce 0%, #56b764 55%, transparent 74%);
+    top: -60px;
+    left: -80px;
+}
+
+.shape-b {
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle at 70% 40%, #dbf8e0 0%, #5fbd6f 58%, transparent 76%);
+    bottom: -120px;
+    right: -70px;
+    animation-delay: 2s;
+}
+
+.shape-c {
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle at 40% 40%, #cff5d7 0%, #66c174 58%, transparent 78%);
+    top: 42%;
+    right: 36%;
+    opacity: 0.1;
+    animation-delay: 1s;
+}
+
+.brand-panel,
+.form-panel {
+    position: relative;
+    z-index: 1;
+}
+
+.brand-panel {
+    background: linear-gradient(155deg, #2e7d32 0%, #1f6d2a 45%, #165820 100%);
+    color: #fff;
+    padding: clamp(28px, 5vw, 54px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.7s ease both;
+}
+
+.brand-inner {
+    width: 100%;
+    max-width: 520px;
+}
+
+.badge {
+    display: inline-block;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    backdrop-filter: blur(2px);
+}
+
+.brand-panel h1 {
+    margin: 0;
+    font-size: clamp(30px, 4vw, 50px);
+    line-height: 1.15;
+    font-weight: 800;
+}
+
+.brand-panel p {
+    margin: 16px 0 0;
+    font-size: clamp(14px, 1.6vw, 18px);
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 480px;
+}
+
+.features {
+    margin: 30px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 14px;
+}
+
+.features li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.check {
+    margin-top: 1px;
+    font-weight: 700;
+}
+
+.form-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(18px, 4vw, 44px);
+    animation: fadeInUp 0.75s ease both;
+}
+
+.form-card {
+    width: 100%;
+    max-width: 560px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #e7efe8;
+    border-radius: 18px;
+    box-shadow: 0 18px 38px rgba(30, 87, 39, 0.13);
+    backdrop-filter: blur(8px);
+    padding: clamp(18px, 3vw, 30px);
+    transition: box-shadow 0.22s ease, transform 0.22s ease;
+}
+
+.form-card:hover {
+    box-shadow: 0 24px 46px rgba(30, 87, 39, 0.2), 0 0 20px rgba(103, 191, 113, 0.18);
+    transform: translateY(-2px);
+}
+
+.form-card h2 {
+    margin: 0;
+    font-size: clamp(24px, 3vw, 30px);
+    font-weight: 700;
+}
+
+.subtext {
+    margin: 8px 0 20px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.form-message {
+    display: none;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin: 0 0 14px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-message.show {
+    display: block;
+}
+
+.form-message.error {
+    background: var(--error-bg);
+    color: var(--error);
+}
+
+.form-message.success {
+    background: var(--success-bg);
+    color: var(--success);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+input,
+textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 13px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    background: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 94px;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.14);
+}
+
+.password-wrap {
+    position: relative;
+}
+
+.password-wrap input {
+    padding-right: 58px;
+}
+
+.toggle-btn {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: var(--primary-dark);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 4px 6px;
+}
+
+.role-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.role-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+    padding: 12px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.18s ease;
+}
+
+.role-card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 10px 20px rgba(46, 125, 50, 0.18), 0 0 14px rgba(96, 183, 108, 0.2);
+}
+
+.role-card.selected {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.16);
+    transform: scale(1.02);
+}
+
+.role-card h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+}
+
+.role-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.error-text {
+    min-height: 16px;
+    font-size: 12px;
+    color: var(--error);
+}
+
+input.valid,
+textarea.valid,
+.role-wrapper.valid {
+    border-color: var(--success);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.12);
+    background: var(--success-bg);
+}
+
+input.invalid,
+textarea.invalid,
+.role-wrapper.invalid {
+    border-color: var(--error);
+    box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.12);
+    background: var(--error-bg);
+}
+
+.role-wrapper {
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 2px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.submit-btn {
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    padding: 13px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background: var(--primary-dark);
+    box-shadow: 0 12px 24px rgba(46, 125, 50, 0.28), 0 0 18px rgba(92, 183, 104, 0.32);
+    transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.loading-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-top-color: #fff;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+    animation: spin 0.65s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes floatOrb {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+        transform: translate3d(16px, -14px, 0) scale(1.05);
+    }
+    100% {
+        transform: translate3d(-10px, 10px, 0) scale(0.96);
+    }
+}
+
+.login-note {
+    margin: 12px 0 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.login-note a {
+    color: var(--primary-dark);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-note a:hover {
+    text-decoration: underline;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 980px) {
+    .page {
+        grid-template-columns: 1fr;
+    }
+
+    .brand-panel {
+        min-height: 40vh;
+    }
+}
+
+@media (max-width: 620px) {
+    .form-panel {
+        padding: 14px;
+    }
+
+    .grid,
+    .role-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+<body>
+<div class="bg-shape shape-a" aria-hidden="true"></div>
+<div class="bg-shape shape-b" aria-hidden="true"></div>
+<div class="bg-shape shape-c" aria-hidden="true"></div>
+
+<main class="page">
+    <section class="brand-panel">
+        <div class="brand-inner">
+            <span class="badge">FarmSync Platform</span>
+            <h1>Join the Future of Smart Farming 🌾</h1>
+            <p>Connecting farmers and consumers directly with smart technology.</p>
+
+            <ul class="features" aria-label="FarmSync features">
+                <li><span class="check">✔</span><span>Sell directly to buyers</span></li>
+                <li><span class="check">✔</span><span>Fair pricing and better profits</span></li>
+                <li><span class="check">✔</span><span>AI-powered agriculture insights</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="form-panel">
+        <div class="form-card">
+            <h2>Create Your Account</h2>
+            <p class="subtext">Choose your role and start your FarmSync journey today.</p>
+
+            <form id="registerForm" novalidate>
+                <div id="formMessage" class="form-message" role="alert" aria-live="polite"></div>
+
+                <div class="grid">
+                    <div class="form-group full">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required />
+                        <p class="error-text" id="fullNameError"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+                        <p class="error-text" id="emailError"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="10 digit number" required />
+                        <p class="error-text" id="phoneError"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-wrap">
+                            <input type="password" id="password" name="password" placeholder="Minimum 6 characters" required />
+                            <button type="button" class="toggle-btn" data-target="password">Show</button>
+                        </div>
+                        <p class="error-text" id="passwordError"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="password-wrap">
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter password" required />
+                            <button type="button" class="toggle-btn" data-target="confirmPassword">Show</button>
+                        </div>
+                        <p class="error-text" id="confirmPasswordError"></p>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="address">Address</label>
+                        <textarea id="address" name="address" placeholder="Enter your address" required></textarea>
+                        <p class="error-text" id="addressError"></p>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Select Role</label>
+                        <div id="roleWrapper" class="role-wrapper">
+                            <div class="role-grid">
+                                <article class="role-card" data-role="farmer" tabindex="0" role="button" aria-label="Select Farmer role">
+                                    <h3>🌾 Farmer</h3>
+                                    <p>Sell your crops, manage orders, and grow your business.</p>
+                                </article>
+                                <article class="role-card" data-role="consumer" tabindex="0" role="button" aria-label="Select Consumer role">
+                                    <h3>🛒 Consumer</h3>
+                                    <p>Buy fresh farm produce directly from trusted farmers.</p>
+                                </article>
+                            </div>
+                        </div>
+                        <p class="error-text" id="roleError"></p>
+                    </div>
+                </div>
+
+                <button id="submitBtn" class="submit-btn" type="submit" disabled>Create Account</button>
+                <p class="login-note">Already registered? <a href="login.html">Go to Login</a></p>
+            </form>
+        </div>
+    </section>
+</main>
+
+<script src="register.js"></script>
+</body>
+</html>
